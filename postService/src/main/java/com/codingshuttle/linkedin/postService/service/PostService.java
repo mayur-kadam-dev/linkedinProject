@@ -1,5 +1,8 @@
 package com.codingshuttle.linkedin.postService.service;
 
+import com.codingshuttle.linkedin.postService.auth.AuthContextHolder;
+import com.codingshuttle.linkedin.postService.client.ConnectionsServiceClient;
+import com.codingshuttle.linkedin.postService.dto.PersonDto;
 import com.codingshuttle.linkedin.postService.dto.PostCreateRequestDto;
 import com.codingshuttle.linkedin.postService.dto.PostDto;
 import com.codingshuttle.linkedin.postService.entity.Post;
@@ -20,6 +23,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final ModelMapper modelMapper;
+    private final ConnectionsServiceClient connectionsServiceClient;
 
     public PostDto createPost(PostCreateRequestDto postCreateRequestDto, Long userId) {
         Post post = modelMapper.map(postCreateRequestDto, Post.class);
@@ -29,6 +33,12 @@ public class PostService {
     }
 
     public PostDto getPostById(Long postId) {
+        Long userId = AuthContextHolder.getCurrentUserId();
+
+//        TODO: Remove in future
+//        Call the Connections Service from the Posts Service and pass the userId inside the headers
+
+        List<PersonDto> personDtoList = connectionsServiceClient.getFirstDegreeConnections(userId);
         Post post = postRepository.findById(postId).orElseThrow(()-> new ResourceNotFoundException("Post not found with ID: "+postId));
         return modelMapper.map(post,PostDto.class);
     }
