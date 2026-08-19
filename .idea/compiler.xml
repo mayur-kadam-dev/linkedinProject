@@ -8,7 +8,16 @@
         <outputRelativeToContentRoot value="true" />
         <module name="DiscoverServer" />
       </profile>
-      <profile name="Annotation profile for userService" enabled="true">
+      <profile name="Annotation profile for APIGateway" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
+        </processorPath>
+        <module name="APIGateway" />
+      </profile>
+      <profile name="Annotation profile for postService" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -23,6 +32,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="APIGateway" options="-parameters" />
       <module name="ConnectionService" options="-parameters" />
       <module name="DiscoverServer" options="-parameters" />
       <module name="postService" options="-parameters" />
